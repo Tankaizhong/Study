@@ -84,3 +84,166 @@ CODE ENDS
 END START
 ```
 
+## 上机
+
+### 开关
+
+``` js
+DATA SEGMENT
+  switchState db 0  ; 存储开关状态
+  lightState  db 0  ; 存储灯状态
+DATA ENDS
+CODE SEGMENT
+            ASSUME CS:CODE,DS:DATA
+  START:    mov    ax, @data
+            mov    ds, ax
+            mov    al, 10000000b    ; 设置8255的控制字节，将其配置为模式0
+            out    37Ah, al
+  MAIN_LOOP:in     al, 378h         ; 从PA口读取开关状态
+            mov    switchState, al
+            mov    lightState, al   ; 将开关状态作为灯状态
+            out    379h, al         ; 将灯状态输出到PB口
+            jmp    MAIN_LOOP        ; 无限循环
+            MOV    AH,4CH
+            INT    21H
+CODE ENDS
+END START
+
+```
+
+### LED
+
+```
+DATA SEGMENT
+  port_num  equ 378h  ; 并行口地址
+  delay_val equ 5000  ; 延迟值
+DATA ENDS
+CODE SEGMENT
+            ASSUME CS:CODE,DS:DATA
+  start:    
+            mov    ax, data
+            mov    ds, ax
+
+            mov    al, 11111110b    ; 初始化PA口，将除了最低位外的其他位设置为高电平
+            out    port_num, al
+
+            mov    al, 00000001b    ; 从最低位开始逐个点亮LED灯
+            mov    bl, 8            ; 循环计数器，控制点亮的灯的数量
+
+  loop_led: 
+            out    port_num, al     ; 点亮当前LED灯
+            mov    cx, delay_val    ; 延迟一段时间
+  delay:    
+            nop
+            loop   delay
+
+            xor    al, al           ; 关闭当前LED灯
+            out    port_num, al
+            mov    cx, delay_val    ; 延迟一段时间
+  delay_off:
+            nop
+            loop   delay_off
+
+            rcl    al, 1            ; 循环左移1位，点亮下一个LED灯
+            dec    bl
+            jnz    loop_led         ; 若未点亮完所有灯，则继续循环
+
+            mov    AH,4CH
+            INT    21H
+CODE ENDS
+END START
+```
+
+### LED
+
+```js
+DATA SEGMENT
+  port_num  equ 378h  ; 并行口地址
+  delay_val equ 5000  ; 延迟值
+DATA ENDS
+CODE SEGMENT
+            ASSUME CS:CODE,DS:DATA
+  start:    
+            mov    ax, data
+            mov    ds, ax
+
+            mov    al, 11111110b    ; 初始化PA口，将除了最低位外的其他位设置为高电平
+            out    port_num, al
+
+            mov    al, 00000001b    ; 从最低位开始逐个点亮LED灯
+            mov    bl, 8            ; 循环计数器，控制点亮的灯的数量
+
+  loop_led: 
+            out    port_num, al     ; 点亮当前LED灯
+            mov    cx, delay_val    ; 延迟一段时间
+  delay:    
+            nop
+            loop   delay
+
+            xor    al, al           ; 关闭当前LED灯
+            out    port_num, al
+            mov    cx, delay_val    ; 延迟一段时间
+  delay_off:
+            nop
+            loop   delay_off
+
+            rcl    al, 1            ; 循环左移1位，点亮下一个LED灯
+            dec    bl
+            jnz    loop_led         ; 若未点亮完所有灯，则继续循环
+
+            mov    AH,4CH
+            INT    21H
+CODE ENDS
+END START
+
+```
+
+
+
+### 数组相加
+
+```js
+DATA SEGMENT
+  A    DW 1, 2, 3, 4
+  B    DW 5, 6, 7, 8
+  C    DD 0, 0, 0, 0  ; 数组C存储结果
+DATA ENDS
+
+CODE SEGMENT
+        ASSUME CS:CODE,DS:DATA
+  START:
+        MOV    AX, @DATA
+        MOV    DS, AX
+
+        MOV    CX, 4            ; 迭代计数器，表示数组元素的个数
+
+        MOV    SI, 0            ; 用于访问数组A的偏移量
+        MOV    DI, 0            ; 用于访问数组B的偏移量
+        MOV    BX, 0            ; 用于访问数组C的偏移量
+
+  START:
+        MOV    AX, @DATA
+        MOV    DS, AX
+
+        MOV    CX, 4            ; 迭代计数器，表示数组元素的个数
+
+        MOV    SI, 0            ; 用于访问数组A的偏移量
+        MOV    DI, 0            ; 用于访问数组B的偏移量
+        MOV    BX, 0            ; 用于访问数组C的偏移量
+        MOV    AH,4CH
+        INT    21H
+CODE ENDS
+END START
+```
+
+在这个示例中，我们使用了`.DATA` 和 `.CODE` 分别标识数据段和代码段的开始。`ASSUME CS:CODE, DS:DATA` 建立了代码段和数据段寄存器与相应的段之间的关联。
+
+我们定义了数组A、B和C，并初始化了数组A和数组B的元素。使用`MOV CX, 4`来设置迭代计数器，表示我们要对4个元素进行操作。
+
+使用`MOV SI, 0`、`MOV DI, 0`和`MOV BX, 0`来初始化偏移量寄存器，用于访问数组A、数组B和数组C的元素。
+
+在循环开始前，我们从数组A和数组B中读取当前元素到寄存器AX和DX，并使用`ADD`指令将它们相加。然后，使用`MOV`指令将结果存储到数组C中。
+
+接着，我们增加偏移量寄存器SI、DI和BX，以便在下一次循环中访问下一个元素。然后，使用`LOOP`指令来判断是否继续循环迭代。
+
+请注意，MASM语法和汇编器的具体规则可能因版本和配置而有所不同。在使用不同的汇编器和汇编语言风格时，确保参考相应的文档和规范以正确编写和编译程序。
