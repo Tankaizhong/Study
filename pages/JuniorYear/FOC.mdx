@@ -56,7 +56,7 @@ Q:执行到 INT 21H 指令时，控制权会转移到DOS操作系统，然后DOS
 
 ## 数组求偶数个数
 
-```js
+```ts
 ;统计偶数
 DATA SEGMENT
   ARRAY DB  -18,47,-72,55,9
@@ -88,7 +88,7 @@ END START
 
 ### 开关
 
-``` js
+```ts
 DATA SEGMENT
   switchState db 0  ; 存储开关状态
   lightState  db 0  ; 存储灯状态
@@ -108,101 +108,55 @@ CODE SEGMENT
             INT    21H
 CODE ENDS
 END START
-
 ```
 
-### LED
+### LED亮,只亮一个灯
 
-```
+```ts
 DATA SEGMENT
-  port_num  equ 378h  ; 并行口地址
-  delay_val equ 5000  ; 延迟值
+  PORT_NUM  EQU 378h  ; 并行口地址
+  DELAY_VAL EQU 5000  ; 延迟值
 DATA ENDS
+
 CODE SEGMENT
-            ASSUME CS:CODE,DS:DATA
-  start:    
-            mov    ax, data
-            mov    ds, ax
+            ASSUME CS:CODE, DS:DATA
+  START:    
+            MOV    AX, DATA
+            MOV    DS, AX
 
-            mov    al, 11111110b    ; 初始化PA口，将除了最低位外的其他位设置为高电平
-            out    port_num, al
+            MOV    AL, 11111110b     ; 初始化PA口，将除了最低位外的其他位设置为高电平
+            OUT    PORT_NUM, AL
 
-            mov    al, 00000001b    ; 从最低位开始逐个点亮LED灯
-            mov    bl, 8            ; 循环计数器，控制点亮的灯的数量
+            MOV    AL, 00000001b     ; 从最低位开始逐个点亮LED灯
+            MOV    BL, 8             ; 循环计数器，控制点亮的灯的数量
 
-  loop_led: 
-            out    port_num, al     ; 点亮当前LED灯
-            mov    cx, delay_val    ; 延迟一段时间
-  delay:    
-            nop
-            loop   delay
+  LOOP_LED: 
+            OUT    PORT_NUM, AL      ; 点亮当前LED灯
+            MOV    CX, DELAY_VAL     ; 延迟一段时间
+  DELAY:    
+            NOP
+            LOOP   DELAY
 
-            xor    al, al           ; 关闭当前LED灯
-            out    port_num, al
-            mov    cx, delay_val    ; 延迟一段时间
-  delay_off:
-            nop
-            loop   delay_off
+            XOR    AL, AL            ; 关闭当前LED灯
+            OUT    PORT_NUM, AL
+            MOV    CX, DELAY_VAL     ; 延迟一段时间
+  DELAY_OFF:
+            NOP
+            LOOP   DELAY_OFF
 
-            rcl    al, 1            ; 循环左移1位，点亮下一个LED灯
-            dec    bl
-            jnz    loop_led         ; 若未点亮完所有灯，则继续循环
+            RCL    AL, 1             ; 循环左移1位，点亮下一个LED灯
+            DEC    BL
+            JNZ    LOOP_LED          ; 若未点亮完所有灯，则继续循环
 
-            mov    AH,4CH
+            MOV    AH,4CH
             INT    21H
 CODE ENDS
 END START
 ```
-
-### LED
-
-```js
-DATA SEGMENT
-  port_num  equ 378h  ; 并行口地址
-  delay_val equ 5000  ; 延迟值
-DATA ENDS
-CODE SEGMENT
-            ASSUME CS:CODE,DS:DATA
-  start:    
-            mov    ax, data
-            mov    ds, ax
-
-            mov    al, 11111110b    ; 初始化PA口，将除了最低位外的其他位设置为高电平
-            out    port_num, al
-
-            mov    al, 00000001b    ; 从最低位开始逐个点亮LED灯
-            mov    bl, 8            ; 循环计数器，控制点亮的灯的数量
-
-  loop_led: 
-            out    port_num, al     ; 点亮当前LED灯
-            mov    cx, delay_val    ; 延迟一段时间
-  delay:    
-            nop
-            loop   delay
-
-            xor    al, al           ; 关闭当前LED灯
-            out    port_num, al
-            mov    cx, delay_val    ; 延迟一段时间
-  delay_off:
-            nop
-            loop   delay_off
-
-            rcl    al, 1            ; 循环左移1位，点亮下一个LED灯
-            dec    bl
-            jnz    loop_led         ; 若未点亮完所有灯，则继续循环
-
-            mov    AH,4CH
-            INT    21H
-CODE ENDS
-END START
-
-```
-
-
 
 ### 数组相加
 
-```js
+```ts
 DATA SEGMENT
   A    DW 1, 2, 3, 4
   B    DW 5, 6, 7, 8
