@@ -1,10 +1,13 @@
 {
   "index": "Introduction",
-  "another": "Another Page",
-  "advanced": "Advanced (A Folder)",
+  "another": "another",
+  "advanced": "集合",
   "about": {
-    "title": "About",
+    "title": "关于我们",
     "type": "page"
+  },
+  "JuniorYear": {
+    "title": "大三下"
   },
   "contact": {
     "title": "Contact ↗",
