@@ -3,7 +3,7 @@ import { remark } from "remark";
 import emoji from "remark-emoji";
 
 export default function intrudoce() {
-  return <div>intrudoce</div>;
+  return <div>这是什么</div>;
 }
 
 

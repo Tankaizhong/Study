@@ -1,18 +1,10 @@
 {
   "index": "Introduction",
-  "another": "another",
-  "advanced": "集合",
   "about": {
     "title": "关于我们",
     "type": "page"
   },
   "JuniorYear": {
     "title": "大三下"
-  },
-  "contact": {
-    "title": "Contact ↗",
-    "type": "page",
-    "href": "https://twitter.com/shuding_",
-    "newWindow": true
   }
 }
