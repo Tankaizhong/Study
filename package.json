@@ -18,10 +18,6 @@
   },
   "homepage": "https://github.com/shuding/nextra-docs-template#readme",
   "dependencies": {
-    "docxtemplater": "^3.37.11",
-    "file-saver": "^2.0.5",
-    "html-docx-js": "^0.3.1",
-    "jszip": "^3.10.1",
     "next": "^13.4.6",
     "nextra": "latest",
     "nextra-theme-docs": "latest",
