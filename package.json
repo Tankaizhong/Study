@@ -1,5 +1,5 @@
 {
-  "name": "nextra-docs-template",
+  "name": "guide-for-the-final-exam",
   "version": "0.0.1",
   "description": "Nextra docs template",
   "scripts": {
@@ -18,8 +18,11 @@
   },
   "homepage": "https://github.com/shuding/nextra-docs-template#readme",
   "dependencies": {
+    "docxtemplater": "^3.37.11",
+    "file-saver": "^2.0.5",
     "html-docx-js": "^0.3.1",
-    "next": "^13.0.6",
+    "jszip": "^3.10.1",
+    "next": "^13.4.6",
     "nextra": "latest",
     "nextra-theme-docs": "latest",
     "react": "^18.2.0",
@@ -27,10 +30,11 @@
     "react-doc-viewer": "^0.1.5",
     "react-dom": "^18.2.0",
     "remark": "^14.0.3",
-    "remark-emoji": "^3.1.2"
+    "remark-emoji": "^3.1.2",
+    "webpack": "^5.87.0"
   },
   "devDependencies": {
     "@types/node": "18.11.10",
-    "typescript": "^4.9.3"
+    "typescript": "^4.9.5"
   }
 }
