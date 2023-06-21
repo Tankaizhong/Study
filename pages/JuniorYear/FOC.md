@@ -42,13 +42,13 @@
 
 ## 推到,语法树,短语
 
-![image-20230621155705088](./assets/image-20230621155705088.png)
+![image-20230621155705088](https://nunbey-bill.oss-cn-beijing.aliyuncs.com/2020-weekReport/image-20230621155705088.png)
 
 ## 2. 二义性
 
 文法二义性:证明该文法G的一个句子有两个或以上的语法树
 
-![image-20230621155154695](./assets/image-20230621155154695.png)
+![image-20230621155154695](https://nunbey-bill.oss-cn-beijing.aliyuncs.com/2020-weekReport/image-20230621155154695.png)
 
 ## 3.等价变化
 
@@ -56,15 +56,15 @@
 
 #### 法一:
 
-![image-20230621161155846](./assets/image-20230621161155846.png)
+![image-20230621161155846](https://nunbey-bill.oss-cn-beijing.aliyuncs.com/2020-weekReport/image-20230621161155846.png)
 
 #### 法二:提取公共因子
 
-![image-20230621162429455](./assets/image-20230621162429455.png)
+![image-20230621162429455](https://nunbey-bill.oss-cn-beijing.aliyuncs.com/2020-weekReport/image-20230621162429455.png)
 
-![image-20230621163203960](./assets/image-20230621163203960.png)
+![image-20230621163203960](https://nunbey-bill.oss-cn-beijing.aliyuncs.com/2020-weekReport/image-20230621163203960.png)
 
-![image-20230621163523129](./assets/image-20230621163523129.png)
+![image-20230621163523129](https://nunbey-bill.oss-cn-beijing.aliyuncs.com/2020-weekReport/image-20230621163523129.png)
 
 ![C5HF1(./../../../../备份/OneDrive/桌面/本地/C5HF1(6)D79P%YZ7P90Q3NP.jpg)D79P%YZ7P90Q3NP](./C5HF1(6)D79P%25YZ7P90Q3NP.jpg)
 
@@ -72,9 +72,9 @@
 
 ### 3.3正则到有限自动状态机
 
->步骤:![image-20230621172509297](./assets/image-20230621172509297.png)
+>步骤:![image-20230621172509297](https://nunbey-bill.oss-cn-beijing.aliyuncs.com/2020-weekReport/image-20230621172509297.png)
 
 例题==该题是构造到NFA为止,并不到DFA==
 
-![image-20230621172616621](./assets/image-20230621172616621.png)
+![image-20230621172616621](https://nunbey-bill.oss-cn-beijing.aliyuncs.com/2020-weekReport/image-20230621172616621.png)
 
