@@ -48,5 +48,5 @@
 
 文法二义性:证明该文法G的一个句子有两个或以上的语法树
 
-![image-20230621151516664](https://nunbey-bill.oss-cn-beijing.aliyuncs.com/2020-weekReport/image-20230621151516664.png)
+<img src="https://nunbey-bill.oss-cn-beijing.aliyuncs.com/2020-weekReport/image-20230621152621348.png" alt="image-20230621152621348" style="zoom:50%;" />
 
