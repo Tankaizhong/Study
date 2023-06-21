@@ -66,7 +66,7 @@
 
 ![image-20230621163523129](https://nunbey-bill.oss-cn-beijing.aliyuncs.com/2020-weekReport/image-20230621163523129.png)
 
-![C5HF1(./../../../../备份/OneDrive/桌面/本地/C5HF1(6)D79P%YZ7P90Q3NP.jpg)D79P%YZ7P90Q3NP](./C5HF1(6)D79P%25YZ7P90Q3NP.jpg)
+![image-20230621174749264](https://nunbey-bill.oss-cn-beijing.aliyuncs.com/2020-weekReport/image-20230621174749264.png)
 
 ### 3.2化简
 
