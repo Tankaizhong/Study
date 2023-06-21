@@ -1,8 +1,8 @@
 # 考试范围
 
-<img src="C:/Users/Tankaizhong/AppData/Roaming/Typora/typora-user-images/image-20230621105054121.png" alt="image-20230621105054121" style="zoom:50%;" />
+![image-20230621152137846](https://nunbey-bill.oss-cn-beijing.aliyuncs.com/2020-weekReport/image-20230621152137846.png)
 
-<img src="https://nunbey-bill.oss-cn-beijing.aliyuncs.com/2020-weekReport/image-20230621105109966.png" alt="image-20230621105109966" style="zoom:50%;" />
+![image-20230621152254933](https://nunbey-bill.oss-cn-beijing.aliyuncs.com/2020-weekReport/image-20230621152254933.png)
 
 # 第二章 
 
@@ -30,7 +30,7 @@
 
    11.符号串集合的正闭包
 
-## 文法
+## 1.文法
 
 1. 表述文法概念
 2. 文法的分类，并运用文法分类的方法判明以文法的类别
@@ -43,3 +43,10 @@
 ## 推到,语法树,短语
 
 ![image-20230621125153636](https://nunbey-bill.oss-cn-beijing.aliyuncs.com/2020-weekReport/image-20230621125153636.png)
+
+## 2. 二义性
+
+文法二义性:证明该文法G的一个句子有两个或以上的语法树
+
+![image-20230621151516664](https://nunbey-bill.oss-cn-beijing.aliyuncs.com/2020-weekReport/image-20230621151516664.png)
+
