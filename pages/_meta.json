@@ -1,9 +1,6 @@
 {
   "index": "Introduction",
-  "about": {
-    "title": "关于",
-    "type": "page"
-  },
+  
   "JuniorYear": {
     "title": "大三下"
   }
