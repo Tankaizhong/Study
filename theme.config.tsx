@@ -2,9 +2,7 @@ import React from "react";
 import { DocsThemeConfig } from "nextra-theme-docs";
 
 const config: DocsThemeConfig = {
-  logo: <span>导航栏  
-    
-    ➡️</span>,
+  logo: <span>导航栏 ➡️</span>,
   // project: {
   //   link: "https://github.com/shuding/nextra-docs-template",
   // },
@@ -13,7 +11,7 @@ const config: DocsThemeConfig = {
   // },
   // docsRepositoryBase: "https://github.com/shuding/nextra-docs-template",
   footer: {
-    text: "2022.6.31",
+    text: "created by Tankaizhong in 2023.6",
   },
   i18n: [{ locale: "zh", text: "中文" }],
 };
