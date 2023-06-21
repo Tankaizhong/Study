@@ -11,8 +11,3 @@
 
 📧 :2534658839@qq.com
 
-{/* ## 期末倒计时 ⏰ */}
-
-import App from "../components/Countdown/App.tsx";
-
-{/* <App /> */}
