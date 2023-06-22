@@ -66,15 +66,35 @@
 
 ![image-20230621163523129](https://nunbey-bill.oss-cn-beijing.aliyuncs.com/2020-weekReport/image-20230621163523129.png)
 
-![image-20230621174749264](https://nunbey-bill.oss-cn-beijing.aliyuncs.com/2020-weekReport/image-20230621174749264.png)
+![C5HF1(./../../../../%25E5%25A4%2587%25E4%25BB%25BD/OneDrive/%25E6%25A1%258C%25E9%259D%25A2/%25E6%259C%25AC%25E5%259C%25B0/C5HF1(6)D79P%2525YZ7P90Q3NP.jpg)D79P%YZ7P90Q3NP](./C5HF1(6)D79P%25YZ7P90Q3NP.jpg)
 
 ### 3.2化简
 
-### 3.3正则到有限自动状态机
+## 4 正则到有限自动状态机
 
 >步骤:![image-20230621172509297](https://nunbey-bill.oss-cn-beijing.aliyuncs.com/2020-weekReport/image-20230621172509297.png)
 
 例题==该题是构造到NFA为止,并不到DFA==
 
 ![image-20230621172616621](https://nunbey-bill.oss-cn-beijing.aliyuncs.com/2020-weekReport/image-20230621172616621.png)
+
+### 4.1 完整从正则到DFA
+
+![image-20230622131252032](https://nunbey-bill.oss-cn-beijing.aliyuncs.com/2020-weekReport/image-20230622131252032.png)
+
+![image-20230622131641803](https://nunbey-bill.oss-cn-beijing.aliyuncs.com/2020-weekReport/image-20230622131641803.png)
+
+![image-20230622131841147](https://nunbey-bill.oss-cn-beijing.aliyuncs.com/2020-weekReport/image-20230622131841147.png)
+
+### 4.2 从NFA到DFA(不化简)
+
+![image-20230622131921694](https://nunbey-bill.oss-cn-beijing.aliyuncs.com/2020-weekReport/image-20230622131921694.png)
+
+### 4.3 从DFA到化简
+
+![image-20230622133038861](https://nunbey-bill.oss-cn-beijing.aliyuncs.com/2020-weekReport/image-20230622133038861.png)
+
+解析
+
+![image-20230622133103641](https://nunbey-bill.oss-cn-beijing.aliyuncs.com/2020-weekReport/image-20230622133103641.png)
 
