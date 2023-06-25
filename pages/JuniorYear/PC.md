@@ -1,48 +1,47 @@
-# 微机代码
+# 微机代码1
 
-## 数组求和
+## 1.1 最大元素
 
 ```ts
-DATA SEGMENT                ;定义数据段
-  ARRAY DW  -1700,7050,92
-        DW  580,-630,-4450
-  LEN   EQU ($-ARRAY)/2     ;LEN变量名
-  RESL  DW  ?
-  RESH  DW  ?               ;（?）通常用作占位符或未知值的标记
-DATA ENDS
-
-CODE SEGMENT                    ;定义代码段（code segment）
-        ASSUME CS:CODE,DS:DATA  ;ASSUME 建立段寄存器与段名之间的关系
-  START:MOV    AX,DATA
-        MOV    DS,AX            ;立即数（Immediate value）直接作为操作数传递给寄存器是不允许的,要通过通用寄存器
-        MOV    SI,0
-        MOV    DI,0
-        LEA    BX,ARRAY         ;LEA 是 "Load Effective Address" 的缩写，它执行的是地址计算的操作
-        MOV    CX,LEN
-        
-  GOON: MOV    AX,[BX]
-        CWD                     ;16位有符号数扩为32位有符号数
-        ADD    SI,AX            ;不进位加
-        ADC    DI,DX            ;ADC:带进位的加法操作
-        ADD    BX, 2            ;每次+2
-        LOOP   GOON
-        MOV    RESL,SI
-        MOV    RESH,DI
-        MOV    AH,4CH
-        INT    21H              ;程序会正常退出并返回到操作系统
-CODE ENDS
-END START ;标记程序的结束点
+;最大元素
+data segment
+  arr   dw  1,2,3
+        DW  4,5,60
+  count equ ($-arr)/2  ;每当程序中出现 count 时，它将被替换为 ($－ARRAY)/2 的
+  max   dw  ?
+data ends
 
 
+code segment
+        assume cs:code,ds:data
 
-Q:'ADC    DI,DX ' 是什么
-A:`ADC DI, DX` 是一条x86汇编指令，用于将 `DI` 寄存器的值与 `DX` 寄存器的值相加，并将结果存储回 `DI` 寄存器中，考虑进位标志位的值。
-具体执行过程如下：
-1. 将 `DI` 寄存器的值与 `DX` 寄存器的值相加，得到一个结果。
-2. 如果进位标志位（Carry Flag）为1，表示有进位，那么结果会再加上进位标志位的值。
-3. 最终的结果会存储回 `DI` 寄存器中。
-需要注意的是，进位标志位可以通过之前的算术操作的结果来设置，或者可以手动设置或清除。通过 `ADC` 指令执行的加法操作会考虑到进位标志位的值，以便实现带进位的加法运算。
-在给定的代码中，`ADC DI, DX` 执行的是将 `DI` 寄存器与 `DX` 寄存器的值相加，并将结果存储回 `DI` 寄存器中，同时考虑进位标志位的值。  
+  start:mov    ax,data          ;重载数组
+        mov    ds,ax
+
+        lea    bx,arr           ; 获得arr寄存器的基地址
+
+        mov    cx,count         ;重载count
+        mov    ax,[bx]          ;将 BX 寄存器中存储的地址所对应的值（数组的第一个元素）加载到 AX 寄存器中。这将作为比较的初始值。
+       
+  goon: cmp    ax,[bx]
+        jae    skip
+        mov    ax,[bx]
+
+  skip: 
+        inc    bx
+        inc    bx
+
+        loop   goon
+
+  ;结果
+        mov    max,ax
+
+  ;中断返回
+        mov    ah,4ch
+        int    21h
+
+code ends
+end start
 ```
 
 Q:执行到 INT 21H 指令时，控制权会转移到DOS操作系统，然后DOS操作系统会根据 AH 寄存器中的值来执行相应的功能。在这里,AH的值为4Ch，表示程序的正常退出请求。
@@ -54,37 +53,214 @@ Q:执行到 INT 21H 指令时，控制权会转移到DOS操作系统，然后DOS
 
 这个步骤的目的是通过与操作系统进行交互，使程序能够向操作系统发送退出请求，以便程序可以正常地终止执行并返回到操作系统环境。
 
-## 数组求偶数个数
+## 1.2 求和
 
 ```ts
-;统计偶数
-DATA SEGMENT
-  ARRAY DB  -18,47,-72,55,9
-        DB  83,-21,-15,14
-  COUNT EQU ($-ARRAY)
-  RES   DW  ?
-DATA ENDS
-CODE SEGMENT
-        ASSUME CS:CODE,DS:DATA
-  START:MOV    AX,DATA
-        MOV    DS,AX
-        LEA    BX,ARRAY
-        MOV    CX,COUNT
-        MOV    DX,0
-  GOON: MOV    AL,[BX]
-        TEST   AL,1
-        JNE    SKIP
-        ADD    DX,1
-  SKIP: INC    BX
-        LOOP   GOON 
-        MOV RES,DX 
-        MOV AH,4CH 
-        INT 21H
-CODE ENDS
-END START
+;求和
+data segment
+  arr   dw  1,2,3
+        dw  4,5,6
+  count equ ($-arr)/2
+  resl  dw  ?
+  resh  dw  ?
+data ends
+
+code segment
+        assume cs:code,ds:data
+  start:mov    ax,data
+        mov    ds,ax            ;重载data
+
+        lea    bx,arr           ;重载arr,LEA 是 "Load Effective Address" 的缩写，
+
+        mov    cx,count
+  goon: mov    ax,[bx]          ;首元素
+        cwd                     ;16位有符号数扩为32位有符号数
+        
+        add    si,ax            ;不进位加
+        adc    di,dx            ;带进位的加法
+
+        add    bx,2
+        loop   goon
+
+        mov    resl,si
+        mov    resh,di
+
+        mov    ah,4ch
+        int    21h
+code ends
+end start 
 ```
 
-## 上机
+## 1.3 统计数组中偶数个数
+
+```ts
+;统计该数组中偶数
+data segment
+  arr   dw  1,2,3
+        dw  4,5,6
+  count equ ($-arr)/2
+  res   dw  ?
+data ends
+
+code segment
+        assume ds:data,cs:code
+  start:mov    ax,data
+        mov    ds,ax
+
+        lea    bx,arr
+
+        mov    cx,count
+
+        mov    dx,0             ;循坏开始
+
+  goon: mov    al,[bx]
+        test   al,1             ;最低位是否为 1?最低位为1跳
+        jne    skip             ;JNE 是 x86 汇编语言中的条件跳转指令，用于在前一次比较的结果为不相等时进行跳转。
+        add    dx,1
+
+  skip: add    bx,2
+        loop   goon
+  ;结果
+        mov    res,dx
+  ;返回
+        mov    ah,4ch
+        int    21h
+
+code ends
+end start
+```
+
+
+
+## 1.4 小写转换大写
+
+```ts
+;所有的小写字母转换为对应的大写字母
+data segment
+  str   db  "The program is running"
+  count equ $-str
+data ends
+
+
+code segment
+        assume cs:code,ds:data
+  start:mov    ax,data
+        mov    ds,ax
+
+        lea    si,str
+        cld                     ;依次加载字符串的字符
+
+  goon: lodsb                   ;LODSB 是 x86 汇编语言中的指令，用于将源字符串中的一个字节加载到 AL 寄存器中，并根据方向标志位的设置递增或递减源地址寄存器,加载到al中
+        cmp    al,"a"
+        jb     skip             ;JB（Jump if Below）
+
+        CMP    al,"z"
+        ja     skip             ;JA（Jump if Above）
+
+        sub    al,32            ;变小写,A 的 ASCII 值为 65, a 的 ASCII 值为 97。
+
+  skip: mov    dl,al
+        mov    ah,2
+        int    21h
+        loop   goon
+
+        mov    ah,4ch
+        int    21H
+code ends
+end start
+```
+
+
+
+## 1.5 数组查找
+
+```ts
+data segment
+  value dw 2
+  arr   dw 1,2,3,4
+  len   dw ($-arr)/2
+data ends
+
+code segment
+
+        assume cs:code,ds:data
+  start:mov    ax,data,
+        mov    ds,ax
+        lea    bx,arr
+        
+        mov    ax,value         ;送目标
+        mov    cx,len           ;送长度
+
+  ;
+        cld                     ; Clear Direction Flag
+        repne  scasw
+        jne    stop
+        cmp    cx,0
+        je     skip
+        dec    di
+        dec    di
+        rep    movsw
+  ;首先，REPNE 是指令前缀，它用于指示后续的字符串操作要重复执行，直到满足特定条件为止。REPNE 表示重复执行，直到不相等（Not Equal）。
+
+  ;scasw 是字符串比较操作，用于在字符串中搜索指定的字（WORD）。在给定的代码中，它用于在字符串数组中搜索与 AX 寄存器中的值相等的字。
+
+  skip: dec    len
+  stop: 
+        mov    ah,4ch
+        int    21h
+
+code ends
+end start
+```
+
+## 1.6 转换十进制数并输出
+
+
+
+```ts
+;
+data segment
+  num   dw 1001001011001010B
+  ascll db 5 dup(?)           ;ascll是一个长度为5字节的数组，每个字节初始值为未知(?)
+data ends
+
+code segment
+        assume cs:code,ds:data
+  start:
+        mov    ax,data
+        mov    ds,ax
+  ;开始
+        lea    si,ascll+4
+        mov    bx,10
+        mov    cx,0
+  ;1.将num转换为十进制并存储到ascll中
+  div10:mov    dx,0             ;DX寄存器清零
+        div    bx               ;将AX寄存器的值除以BX寄存器的值,商存储到AX,余数存储到DX
+        add    dl,30h           ;将余数加上30H;得到十进制的ASCII码
+        mov    [si],dl          ;dl存储到SI指向的位置
+        dec    si               ;然后将SI减一
+        inc    cx               ;将计数器CX加一
+        cmp    ax,0
+        jne    div10            ;如果AX的值不等于0，说明还有未转换的数字，继续循环执行。
+
+  ;2.用于将ASCII数组中的字符逐个显示到屏幕上
+  show: inc    si               ;SI寄存器加一
+        mov    dl, [si]
+        MOV    ah, 2
+        INT    21H
+        LOOP   show
+
+  ;结束
+        mov    ah,4ch
+        int    21h
+
+code ends
+end start 
+```
+
+
+
+# 上机
 
 ### 开关
 
