@@ -1,4 +1,4 @@
-# 微机代码1
+# 期末代码
 
 ## 1.1 最大元素
 
@@ -260,6 +260,64 @@ end start
 
 
 
+## 1.7	输入显示
+
+```assembly
+;显示
+data segment
+  value dw ?
+data ends
+
+code segment
+        assume cs:code, ds:data
+
+  start:
+        mov    ax, data
+        mov    ds, ax
+        mov    bx, 0
+        mov    cx, 4
+
+  goon: 
+        mov    ah, 07h
+        int    21h               ;调用中断21h，这是DOS的功能调用。
+
+        cmp    al, 0dh
+        je     stop              ;如果输入了回车键，则跳转到stop标签处。
+        cmp    al, '0'
+        jb     goon              ;s输入的不是数字,从新到goon
+        cmp    al, '9'
+        ja     goon
+
+
+        mov    dl, al            ;将输入的字符存储在寄存器dl中。
+        mov    ah, 02h           ;将02h（02的十六进制表示）存储在寄存器ah中。
+        int    21h
+        and    al, 0fh           ;将al与0fh进行按位与运算，将字符转换为数字（0-9之间的数值）。
+        call   mul10             ;调用mul10过程，将当前数字乘以10。
+        mov    ah, 0             ;为了下一次乘以10做准备。
+        add    bx, ax            ;乘以10后的结果加到bx寄存器中。
+        loop   goon
+
+  stop: 
+        mov    value, bx
+        mov    ah, 4ch
+        int    21h
+
+mul10 proc                       ; 子程序proc定义
+        sal    bx, 1             ;当前结果乘以2。
+        mov    dx, bx
+        sal    bx, 1
+        sal    bx, 1
+        add    bx, dx
+        ret
+mul10 endp
+
+code ends
+end start
+```
+
+
+
 # 上机
 
 ### 开关
@@ -329,6 +387,70 @@ CODE SEGMENT
 CODE ENDS
 END START
 ```
+
+## 1.8	排序
+
+```assembly
+;定义一个带符号的字数组，数组的长度(元素个数)至少为 5。
+;请分别编写主程序和中断服务程序，
+;要求在主程序中使用 INT 60H 调用中断服务程序 SORT 对上述数组的各元素按从小到大排序。
+data segment
+  array dw  2,3,4,1
+  count equ ($-array)/2
+data ends
+
+code segment
+        assume cs:code, ds:data
+  start:
+  ;开始
+        mov    dx, seg sort      ;用于后序访问sort
+        mov    ds, dx
+        lea    dx, sort
+  ;中断功能调用
+        mov    al, 60h           ;用于DOS功能调用。
+        mov    ah, 25h           ;控制转移
+        int    21h
+
+        mov    ax, data
+        mov    ds, ax
+        int    60h
+
+        mov    ah, 4ch
+        int    21h
+
+sort proc far
+        mov    dx, count
+        dec    dx
+  next: 
+        lea    si, array         ;当前元素
+        lea    di, array+2       ;下一个元素
+        mov    cx, dx
+
+  goon: 
+        mov    ax, [si]
+        cmp    ax, [di]
+        jle    skip              ;jle skip：如果比较结果小于或等于(less equal)，则跳转到标记skip处。
+
+        xchg   ax, [di]          ;
+        xchg   ax, [si]
+
+  skip: 
+        inc    si
+        inc    si
+        inc    di
+        inc    di
+        loop   goon
+
+        dec    dx
+        jne    next              ;如果寄存器dx的值不等于0，则跳转到标记next处，继续下一轮循环。
+        iret                     ;iret：中断返回指令，用于从中断处理程序返回。
+sort endp
+
+code ends
+end start
+```
+
+
 
 ### 数组相加
 
