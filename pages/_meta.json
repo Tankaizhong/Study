@@ -1,10 +1,13 @@
 {
-  "index": "Introduction",
+  "index": "首页",
 
   "JuniorYear": {
     "title": "大三下"
   },
   "about": {
     "title": "其他问题"
+  },
+  "Finish": {
+    "title": "已完结"
   }
 }
