@@ -1,6 +1,8 @@
 # 期末代码
 
-## 1.1 最大元素
+## 基本
+
+### 1.1 最大元素
 
 ```ts
 ;最大元素
@@ -53,7 +55,7 @@ Q:执行到 INT 21H 指令时，控制权会转移到DOS操作系统，然后DOS
 
 这个步骤的目的是通过与操作系统进行交互，使程序能够向操作系统发送退出请求，以便程序可以正常地终止执行并返回到操作系统环境。
 
-## 1.2 求和
+### 1.2 求和
 
 ```ts
 ;求和
@@ -91,7 +93,7 @@ code ends
 end start 
 ```
 
-## 1.3 统计数组中偶数个数
+### 1.3 统计数组中偶数个数
 
 ```ts
 ;统计该数组中偶数
@@ -132,7 +134,7 @@ end start
 
 
 
-## 1.4 小写转换大写
+### 1.4 小写转换大写
 
 ```ts
 ;所有的小写字母转换为对应的大写字母
@@ -172,7 +174,7 @@ end start
 
 
 
-## 1.5 数组查找
+### 1.5 数组查找
 
 ```ts
 data segment
@@ -213,7 +215,7 @@ code ends
 end start
 ```
 
-## 1.6 转换十进制数并输出
+### 1.6 转换十进制数并输出
 
 
 
@@ -260,7 +262,7 @@ end start
 
 
 
-## 1.7	输入显示
+### 1.7	输入显示
 
 ```assembly
 ;显示
@@ -314,6 +316,150 @@ mul10 endp
 
 code ends
 end start
+```
+
+## 芯片
+
+### 1.	8254计数器初始化
+
+```ts
+;13.利用 8254 的计数器 0#和计数器 1#每秒钟产生一次中断请求，共中断 10 次， 每次中断在屏幕上输出一个字符串(字符串的具体内容可随意指定)。
+data segment
+  str   db "The program is interruptted.", 0dh, 0ah, "$"
+  count db 10
+data ends
+
+code segment
+         assume cs:code, ds:data
+  main:  cli                      ;清除中断标志位
+         mov    al, 00110110b
+         out    43h, al
+         mov    ax, 2500          ;频率为 2.5MHz
+         out    40h, al
+         mov    al, ah
+         out    40h, al
+         mov    al, 01110110b
+         out    43h, al
+         mov    ax, 1000
+         out    41h, al
+         mov    al, ah
+         out    41h, al
+         mov    al, 00011011b
+         out    20h, al
+         mov    al, 08h
+         out    21h, al
+         mov    al, 00000001b
+         out    21h, al
+         in     al, 21h
+         and    al, 11110111b
+         out    21h, al
+         mov    dx, seg outstr
+
+         mov    ds, dx
+         lea    dx, outstr
+         mov    al, 0bh
+         mov    ah, 25h
+         int    21h
+         mov    ax, data
+         mov    ds, ax
+         sti
+  wait0: cmp    count, 0
+         jne    wait0
+         mov    ah, 4ch
+         int    21h
+outstr proc far
+         lea    dx, str
+         mov    ah, 9
+         int    21h
+         dec    count
+         mov    al, 00100000b
+         out    20h, al
+         sti
+         iret
+outstr endp
+code ends
+end main
+```
+
+### 2.	8254计数器2
+
+```ts
+;假设 8254 的四个端口地址分别为 40～43H。
+;计数器 0工作在方式 2，计数初值为 240，按二进制计数；
+;计数器 1工作在方式 0，计数初值为 5000，按 BCD 码计数；
+;计数器 2工作在方式 3，计数初值为 3FFH，按二进制计数
+;请分别写出对该 8254 三个计数器初始化的程序段以及读取计数器 2#当前值的程序段，要求把读出结果保存到字变量 CT2 中
+
+;计数器0初始化： 
+mov dx,43h
+mov al, 00010100b
+out 43h, al;在8254芯片中，端口地址 43h 用于控制寄存器的选择
+mov al, 240
+out 40h, al
+
+;计数器1初始化
+mov al, 01110001b
+out 43h, al 
+mov ax, 5000h
+out 41h, al
+xchg al, ah
+out 41h, al
+
+;计数器2初始化
+mov al, 10110110b
+out 43h, al
+mov ax, 3ffh
+out 42h, al
+mov al, ah
+out 42h, al
+
+; 读计数器 2# 当前值
+mov al, 10000000b
+out 43h, al
+in al, 42h
+mov ah, al
+in al, 42h
+xchg ah, al
+mov ct2, ax
+```
+
+
+
+
+
+### 3.	8259A初始化
+
+```ts
+;某微型机的中断系统由 3 片 8259A 组成,以级联方式进行连接。其中作为主片的 8259A 的端口地址为 20h 和 21h,工作方式为特殊完全嵌套、电平触发、缓冲及中断非自动结束,中断类型号为 48～4Fh。第一个从片 8259A 的端口地址为 22h 和23h,工作方式为非特殊完全嵌套、电平触发、缓冲及中断非自动结束,中断类型号为 60～67h,中断请求输出端 INT 与主片的 IR2 连接在一起；第二个从片 8259A 的端口地址为 24h 和 25h,工作方式为非特殊完全嵌套、电平触发、缓冲及中断非自动结束,中断类型号为 68～6Fh,中断请求输出端 INT 与主片的 IR5 连接在一起。请编写程序分别对上述三个 8259A 芯片进行初始化
+
+mov al,19h;设置主片的特殊完全嵌套工作方式
+out 20h,al;
+mov al,48h;中断类型号范围
+out 21h,al
+mov al,24h;中断请求输出端与从片2连接的IR5
+out 21h,al
+mov al,1Dh;主片的中断非自动结束模式
+out 21h,al
+
+;从片 1 初始化程序段：
+mov al,19h
+out 22h,al
+mov al,60h
+out 23h,al
+mov al,02h
+out 23h,al
+mov al,09h
+out 23h,al
+
+;从片 2 初始化程序段：
+mov al,19h
+out 24h,al
+mov al,68h
+out 25h,al
+mov al,05h
+out 25h,al
+mov al,09h
+out 25h,al
 ```
 
 

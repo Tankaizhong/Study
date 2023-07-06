@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    var text = `
+    3.0	82	 	3.20	正常考试	否	信息工程学院	主修	专业主干课程	 	(2022-2023-1)-B0420095-093399-2	贾龙渊	考试	20421096	谭凯中	 	否	9.60
+查看	2022-2023	1	B1420305	概率统计A	必修课程	4.0	71	 	2.10	正常考试	否	信息工程学院	主修	公共基础类课程	 	(2022-2023-1)-B1420305-093276-1	高洪韵	考试	20421096	谭凯中	 	否	8.40
+查看	2022-2023	1	B2420103	计算机组成原理	必修课程	4.0	83	 	3.30	正常考试	是	信息工程学院	主修	专业主干课程	 	(2022-2023-1)-B2420103-050091-1	王颖洁	考试	20421096	谭凯中	 	否	13.20
+查看	2022-2023	1	B3420009	EDA技术及应用	必修课程	2.5	90	 	4.00	正常考试	否	信息工程学院	主修	专业主干课程	 	(2022-2023-1)-B3420009-050070-2	张瑾	考查	20421096	谭凯中	 	否	10.00
+查看	2022-2023	1	B3420297	操作系统	必修课程	4.0	82	 	3.20	正常考试	是	信息工程学院	主修	专业主干课程	 	(2022-2023-1)-B3420297-093143-1	刘庆利	考试	20421096	谭凯中	 	否	12.80
+查看	2022-2023	1	B3420303	网络管理技术	限选课程	2.5	86	 	3.60	
+    `;
+    var pattern = /(\d+(?:\.\d+)?)\s+([A-F\d]{1,2})\s+(\d+(?:\.\d+)?)/g;
+
+    var totalCredit = 0;
+    var totalGpa = 0;
+
+    var matches;
+    while ((matches = pattern.exec(text)) !== null) {
+      var credit = parseFloat(matches[1]);
+      var score = matches[2];
+      var gpa = parseFloat(matches[3]);
+
+      totalCredit += credit;
+      totalGpa += gpa;
+    }
+    console.log(totalGpa, totalCredit);
+    //总的平均绩点为各科的绩点的和 / 总学分数；
+    var averageGpa = totalGpa / totalCredit;
+
+    console.log("总学分: " + totalCredit);
+    console.log("平均绩点: " + averageGpa.toFixed(2));
+  </script>
+</html>
